@@ -1,6 +1,6 @@
 ## wp(wp is wallpaper)
 
-`wp` is command line for change your system wallpaper.
+`wp` is command line for change your system(windows, osx, linux) wallpaper.
 
 ### Installation
 

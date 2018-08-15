@@ -86,6 +86,13 @@ class WallPaperClient(object):
     """
 
     @staticmethod
+    def init_wallpaper_url():
+        if os.path.isfile('wallpaper.json'):
+            os.remove('wallpaper.json')
+        spider_client = WallPaperSpider()
+        spider_client.init_categories()
+
+    @staticmethod
     def add_image(urls: list = None):
         loop = asyncio.get_event_loop()
         if urls is None:
@@ -96,7 +103,6 @@ class WallPaperClient(object):
     def set_wallpaper(args=None):
         web_url = args['url']
         if web_url is not None:
-            # TODO: 那么就是本地的url
             base_name = os.path.basename(web_url)
             WallPaperClient.add_image(urls=[web_url])
             image_path = os.path.join(IMAGE_DIR, base_name)
@@ -105,10 +111,11 @@ class WallPaperClient(object):
             WallPaperClient.add_image(urls=web_url)
             web_url = web_url[0]
             image_path = os.path.join(IMAGE_DIR, os.path.basename(web_url))
-        print("Your wallpaper from :", web_url)
-        print("Your wallpaper local path at : :", image_path)
-        platform_name = platform.system()
 
+        print("Your wallpaper from : ", web_url)
+        print("Your wallpaper local path at: ", image_path)
+
+        platform_name = platform.system()
         # Windows
         if platform_name.startswith("Win"):
             ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
